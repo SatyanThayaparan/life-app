@@ -1,17 +1,9 @@
-# ✳ LifeWrapped — Expo
+# ✳ LifeWrapped
 
-Native React Native app for tracking activities and generating monthly/yearly shareable recaps.
+LifeWrapped is a mobile-friendly web app for logging activities and viewing monthly and yearly recaps.
 
-## Preview on iPhone
-1. Open a GitHub Codespace on the `feature/lifewrapped-expo` branch.
-2. Run `npm install` and `npx expo install --fix`.
-3. Run `npx expo start --tunnel` (approve @expo/ngrok installation if requested).
-4. Open the `exp://` URL in Expo Go on your iPhone.
+**No Expo, EAS, Node, Codespaces, or Apple Developer account required.**
 
-The Codespace must stay running. Expo Go and Expo SDK versions must be compatible.
+Deploy with Netlify from the `main` branch. See [DEPLOY.md](DEPLOY.md) for iPhone instructions.
 
-## Features
-Activity logging, category breakdowns, monthly/yearly stats, recap card sharing, AsyncStorage persistence.
-
-## Limitations
-Local device storage only. No cloud backup or sign-in yet. Device testing is pending.
+Activities are saved in this device's browser storage only; there is no cloud sync or backup yet.
