@@ -1,0 +1,18 @@
+{
+  "name": "LifeWrapped — Your life, in highlights",
+  "short_name": "LifeWrapped",
+  "description": "Track the moments that matter and share your monthly and yearly recaps.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#101021",
+  "theme_color": "#101021",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
