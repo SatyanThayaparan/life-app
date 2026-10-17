@@ -1,0 +1,19 @@
+name: LifeWrapped v2 web build
+on:
+  push:
+    paths: ['v2/**', '.github/workflows/lifewrapped-v2.yml']
+  pull_request:
+    paths: ['v2/**', '.github/workflows/lifewrapped-v2.yml']
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: v2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install
+      - run: npm run build
