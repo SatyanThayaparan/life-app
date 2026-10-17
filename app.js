@@ -20,3 +20,28 @@ function card(){const canvas=$('shareCanvas'),c=canvas.getContext('2d');const da
 $('openWrapped').addEventListener('click',()=>{card();$('wrappedDialog').showModal()});
 $('downloadCard').addEventListener('click',()=>{const a=document.createElement('a');a.download='lifewrapped-'+period+'-'+localDate()+'.png';a.href=$('shareCanvas').toDataURL('image/png');a.click()});
 render();
+
+function downloadBackup(){
+ const blob=new Blob([JSON.stringify({app:'LifeWrapped',version:1,exportedAt:new Date().toISOString(),entries},null,2)],{type:'application/json'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='lifewrapped-backup-'+localDate()+'.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+$('exportBackup').addEventListener('click',downloadBackup);
+$('importBackup').addEventListener('click',()=>$('backupFile').click());
+$('backupFile').addEventListener('change',async event=>{
+ const file=event.target.files?.[0];event.target.value='';if(!file)return;
+ try{
+  if(file.size>5*1024*1024)throw Error('Backup file is too large.');
+  const backup=JSON.parse(await file.text());
+  if(backup?.app!=='LifeWrapped'||backup.version!==1||!Array.isArray(backup.entries))throw Error('Not a supported LifeWrapped backup.');
+  const ids=new Set();
+  const valid=backup.entries.every(e=>{
+   if(!e||typeof e.id!=='string'||!e.id||ids.has(e.id)||typeof e.name!=='string'||!e.name.trim()||e.name.length>80||!Object.hasOwn(categories,e.category)||typeof e.date!=='string'||!/^(\d{4})-(\d{2})-(\d{2})$/.test(e.date)||!Number.isFinite(Date.parse(e.date+'T12:00:00'))||new Date(e.date+'T12:00:00').toISOString().slice(0,10)!==e.date||e.date>localDate()||!Number.isInteger(e.minutes)||e.minutes<1||e.minutes>1440||typeof e.note!=='string'||e.note.length>200||!Number.isFinite(e.created))return false;
+   ids.add(e.id);return true;
+  });
+  if(!valid)throw Error('Backup contains invalid or duplicate entries.');
+  if(!confirm('Replace all '+entries.length+' current entries with '+backup.entries.length+' backup entries? Export your current data first.'))return;
+  const previous=entries;entries=backup.entries;
+  if(!persist()){entries=previous;return;}
+  render();alert('Backup restored successfully.');
+ }catch(error){alert('Import failed: '+error.message+' No entries were changed.');}
+});
