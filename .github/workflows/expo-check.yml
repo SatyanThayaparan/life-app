@@ -1,0 +1,21 @@
+name: Check Expo project
+on:
+  push:
+    branches:
+      - main
+      - feature/lifewrapped-expo
+  pull_request:
+  workflow_dispatch:
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install
+      - run: npx expo config --type public
+      - run: npx expo-doctor
