@@ -1,0 +1,20 @@
+{
+  "expo": {
+    "name": "LifeWrapped",
+    "slug": "lifewrapped",
+    "scheme": "lifewrapped",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#101021",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#101021"
+      }
+    },
+    "plugins": []
+  }
+}
