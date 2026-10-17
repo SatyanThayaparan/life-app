@@ -1,0 +1,55 @@
+name: LifeWrapped v2 native builds
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'v2/**'
+      - '.github/workflows/v2-native.yml'
+  pull_request:
+    paths:
+      - 'v2/**'
+      - '.github/workflows/v2-native.yml'
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: v2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: v2/package-lock.json
+      - run: npm install
+      - run: npm run build
+      - run: npx cap add android
+      - run: npx cap sync android
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: android-actions/setup-android@v3
+      - run: chmod +x android/gradlew && ./android/gradlew assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lifewrapped-android-debug-apk
+          path: v2/android/app/build/outputs/apk/debug/app-debug.apk
+  ios-simulator:
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: v2
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install
+      - run: npm run build
+      - run: npx cap add ios
+      - run: npx cap sync ios
+      - name: Compile iOS simulator app (no signing)
+        run: |
+          xcodebuild -project ios/App/App.xcodeproj -scheme App -configuration Debug -sdk iphonesimulator -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO build
