@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {summarize,currentStreak,lastSevenDays,activitySuggestions} from './insights.js';
+const entries=[{id:'1',name:'Read',category:'Reading',date:'2026-10-17',minutes:30},{id:'2',name:'Run',category:'Fitness',date:'2026-10-16',minutes:60},{id:'3',name:'Read',category:'Reading',date:'2026-09-10',minutes:20}];
+test('monthly totals and categories',()=>{const s=summarize(entries,'month','2026-10-17');assert.equal(s.count,2);assert.equal(s.minutes,90);assert.equal(s.activeDays,2);assert.equal(s.topCategory.category,'Fitness')});
+test('year totals',()=>assert.equal(summarize(entries,'year','2026-10-17').count,3));
+test('streak today and yesterday',()=>assert.equal(currentStreak(entries,'2026-10-17'),2));
+test('streak yesterday only',()=>assert.equal(currentStreak(entries.filter(e=>e.id!=='1'),'2026-10-17'),1));
+test('seven day trend',()=>{const days=lastSevenDays(entries,'2026-10-17');assert.equal(days.length,7);assert.equal(days[6].count,1)});
+test('quick log suggestions deduplicate',()=>assert.equal(activitySuggestions(entries).length,2));
