@@ -1,0 +1,15 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {scenarios,buildScenario} from './fixtures.js';
+import {summarize,currentStreak,lastSevenDays,shiftDay} from '../insights.js';
+import {wrappedInsights,validateActivity} from '../tracking.js';
+test('every fixture has unique IDs and valid activity records',()=>{for(const scenario of scenarios){const data=buildScenario(scenario.id,scenario.date);assert.equal(new Set(data.map(e=>e.id)).size,data.length);for(const e of data)assert.doesNotThrow(()=>validateActivity(e,scenario.date))}});
+test('empty account has no stats or highlights',()=>{const data=buildScenario('empty');assert.equal(summarize(data,'month','2026-10-17').count,0);assert.equal(wrappedInsights(data,'month','2026-10-17').favorite,null);assert.equal(currentStreak(data,'2026-10-17'),0)});
+test('consistent user has a 14-day streak',()=>assert.equal(currentStreak(buildScenario('consistent'),'2026-10-17'),14));
+test('missing 3 days breaks current streak',()=>assert.equal(currentStreak(buildScenario('missed'),'2026-10-17'),0));
+test('monthly recap excludes October on November 1',()=>{const data=buildScenario('month');assert.equal(summarize(data,'month','2026-11-01').count,1);assert.equal(currentStreak(data,'2026-11-01'),12)});
+test('yearly recap excludes previous year',()=>{const data=buildScenario('year');assert.equal(summarize(data,'year','2027-01-01').count,1);assert.equal(currentStreak(data,'2027-01-01'),12)});
+test('leap-day calculations include February 29',()=>{assert.equal(shiftDay('2028-03-01',-1),'2028-02-29');assert.equal(currentStreak(buildScenario('leap'),'2028-03-01'),7)});
+test('500 logs calculate consistently',()=>{const data=buildScenario('power');assert.equal(data.length,500);assert.equal(summarize(data,'year','2026-12-31').count,500);assert.equal(lastSevenDays(data,'2026-12-31').length,7)});
+test('simulated future dates reject future activity',()=>{assert.throws(()=>validateActivity({...buildScenario('consistent')[0],date:'2026-10-18'},'2026-10-17'))});
+test('editing or deleting an entry recalculates analytics',()=>{const data=buildScenario('consistent');const edited=data.map((e,i)=>i===0?{...e,minutes:240}:e);assert.equal(summarize(edited,'month','2026-10-17').minutes-summarize(data,'month','2026-10-17').minutes,225);assert.equal(currentStreak(data.slice(1),'2026-10-17'),13)});
+test('JSON backup round-trip preserves optional fields',()=>{const data=buildScenario('consistent');const copy=JSON.parse(JSON.stringify({app:'LifeWrapped',version:1,entries:data}));assert.deepEqual(copy.entries,data)});
