@@ -8,7 +8,7 @@
     "build": "vite build && node scripts/precache.mjs",
     "preview": "vite preview",
     "cap:sync": "npm run build && cap sync",
-    "test": "node --test src/*.test.js"
+    "test": "node --test src/*.test.js src/testlab/*.test.js"
   },
   "dependencies": {
     "@capacitor/core": "^7.0.0",
