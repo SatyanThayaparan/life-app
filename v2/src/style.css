@@ -42,3 +42,5 @@
 .test-lab a.button{text-decoration:none}
 .test-lab .panel{min-width:0}
 @media(max-width:500px){.test-lab .stats{gap:7px}.test-lab .stats article{padding:12px 8px}.test-lab .stats strong{font-size:24px}}
+
+.wrapped-launch{display:block;margin:10px 0 18px;background:#c2fc65;color:#20182b;width:fit-content}

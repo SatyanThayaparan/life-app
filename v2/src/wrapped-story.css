@@ -1,0 +1,14 @@
+.story-overlay{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;flex-direction:column;background:#090611ee;padding:env(safe-area-inset-top) 12px env(safe-area-inset-bottom);gap:12px}
+.story-card{position:relative;display:flex;flex-direction:column;overflow:hidden;isolation:isolate;width:min(100%,430px);height:min(76dvh,760px);min-height:360px;border-radius:23px;color:white;box-shadow:0 20px 90px #0009}
+.story-card::before{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:#ffffff20;top:-100px;right:-130px;z-index:-1}
+.story-card::after{content:'';position:absolute;width:230px;height:230px;border-radius:50%;background:#ffffff14;bottom:-120px;left:-110px;z-index:-1}
+.story-purple{background:linear-gradient(145deg,#6034c9,#241342)}.story-pink{background:linear-gradient(145deg,#e44c91,#692657)}.story-green{background:linear-gradient(145deg,#397e59,#143f38)}.story-orange{background:linear-gradient(145deg,#db653b,#783142)}
+.story-progress{display:flex;gap:4px;margin:16px 17px 0}.story-progress>div{height:4px;background:#ffffff55;flex:1;border-radius:8px}.story-progress>div.filled{background:white}
+.story-toolbar,.story-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 20px}.story-toolbar{font-weight:850;font-size:15px}.story-close{background:#ffffff33;color:white;padding:7px 11px}
+.story-center{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;padding:12px 24px;animation:story-appear .3s ease-out;min-height:0}
+.story-center p:first-child{font-size:12px;letter-spacing:2px;font-weight:850}.story-center h2{font-size:clamp(25px,5.5vw,40px);margin:0;line-height:1.12}.story-center strong{font-size:clamp(45px,10vw,75px);line-height:1.05;overflow-wrap:anywhere;max-width:100%}.story-center p:last-child{font-size:16px;max-width:310px;line-height:1.4}
+.story-bottom button{background:#ffffff30;color:white}.story-bottom button:disabled{opacity:.3;cursor:default}.story-bottom span{font-size:12px}
+.story-share{display:flex;align-items:center;gap:8px;flex-direction:column}.story-share span{color:white;font-size:12px;text-align:center}.story-share button{background:#c2fc65;color:#20182b}
+@keyframes story-appear{from{opacity:.3;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+@media(max-height:650px){.story-card{height:74dvh}.story-center{gap:6px}.story-center strong{font-size:45px}.story-center h2{font-size:24px}}
+@media(prefers-reduced-motion:reduce){.story-center{animation:none}}
