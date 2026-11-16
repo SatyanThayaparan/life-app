@@ -1,36 +1,34 @@
-# LifeWrapped v2 — React + Capacitor
+# LifeWrapped v2
 
-This is an **independent migration prototype**. The existing root Netlify app remains untouched.
+React + Capacitor prototype of LifeWrapped. The root Netlify web app remains the production surface.
 
-## Local development
+## Features
 
-```sh
+- Log, edit, delete, and search activities
+- Category filters and period totals
+- JSON backup import/export compatible with the root app schema
+
+## Tech stack
+
+- React
+- Vite
+- Capacitor (Android / iOS)
+
+## Setup
+
+```bash
 cd v2
 npm install
 npm run dev
 ```
 
-## Web build
+## Usage
 
-```sh
-npm run build
-```
+- `npm run dev` — local web prototype
+- `npm run build` — web build
+- `npm run cap:sync` — sync a web build into native projects after `npx cap add android` / `ios`
 
-## Native project generation (requires Android SDK or macOS/Xcode as applicable)
+## Notes
 
-```sh
-npm install
-npx cap add android
-npx cap add ios
-npm run cap:sync
-```
-
-Capacitor iOS builds need macOS/Xcode and Apple signing for device distribution. The generated native directories should be committed after creation and validation. No Expo account is required.
-
-## Data
-
-The prototype uses the existing `lifewrapped.entries.v1` browser storage key and supports JSON backups with the same schema as the original app. Storage is still origin/device-specific; **native Capacitor storage does not automatically share data with Safari or Netlify**. Export on the old app and import in the new app. Long-term, use a dedicated native persistence layer and migrations.
-
-## Status
-
-Initial React prototype: logging, editing, deleting, search, category filter, period totals and JSON backup/import. The original Wrapped card UI, complete statistics, native persistence, offline asset handling, automated tests, and signed native builds remain to be implemented. Do not replace the production deployment yet.
+- Storage is still device/origin specific; export from the root app and import here to migrate data.
+- Native persistence, full Wrapped card parity, and signed builds are not finished yet.
