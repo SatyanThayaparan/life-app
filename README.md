@@ -21,17 +21,37 @@ Mobile-friendly web app for logging everyday activities and turning them into mo
 
 ### Web app (root)
 
-1. No build step required for the root app.
-2. Open `index.html` in a browser, or serve the folder with any static server.
-3. For Netlify: deploy from the `main` branch (see `netlify.toml` and [DEPLOY.md](DEPLOY.md)).
+1. Clone the repo and enter the project folder:
+
+```bash
+git clone https://github.com/SatyanThayaparan/life-app.git
+cd life-app
+```
+
+2. Serve the root folder with any static server. Easiest options:
+
+```bash
+# Option A: Python
+python -m http.server 8080
+
+# Option B: Node
+npx --yes serve .
+```
+
+3. Open `http://localhost:8080` (or the URL printed by the server).
+4. Optional iPhone / Netlify deploy steps are in [DEPLOY.md](DEPLOY.md).
 
 ### v2 prototype
+
+1. From the repo root:
 
 ```bash
 cd v2
 npm install
 npm run dev
 ```
+
+2. Open the Vite URL shown in the terminal.
 
 ## Usage
 
